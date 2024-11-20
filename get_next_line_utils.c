@@ -6,7 +6,7 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:12:00 by dernst            #+#    #+#             */
-/*   Updated: 2024/11/20 15:46:25 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2024/11/20 21:59:43 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	buffer = malloc(nmemb * size);
 	if (!buffer)
 		return (buffer);
-	while (i < size * nmemb)
+	while (i < nmemb)
 	{
 		((char *)buffer)[i] = 0;
 		i++;
@@ -34,35 +34,31 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	return (buffer);
 }
 
-char	*ft_substr(char *s, unsigned int start, size_t len, size_t *is_endline, size_t *buffer_start)
+char	*ft_substr(char *s, size_t len, size_t *is_end, size_t *buffer_start)
 {
 	char	*str;
 	char	*src;
 	size_t	i;
+	size_t	start;
 
-	i = 0; 
+	start = 0;
+	i = 0;
 	str = ft_calloc(len + 1, sizeof(char));
 	if (!str)
 		return (NULL);
-	
 	len++;
-	
 	src = s + start;
-	if (len > 1)
+	while (i < len - 1 && src[i] && len > 1)
 	{
-		while (i < len - 1 && src[i] && src[i])
+		str[i] = src[i];
+		if (src[i] == '\n')
 		{
-			str[i] = src[i];
-			if (src[i] == '\n')
-			{
-				*is_endline = 1;
-				i++;
-				break;
-			}
-			i++;	
+			*is_end = 1;
+			i++;
+			break ;
 		}
+		i++;
 	}
-	str[i] = '\0';
 	*buffer_start = i;
 	return (str);
 }
@@ -94,7 +90,6 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
-
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*str;
@@ -106,23 +101,15 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	len_s1 = ft_strlen(s1, 1);
 	len_s2 = ft_strlen(s2, 1);
 	str = ft_calloc((len_s1 + len_s2) + 1, sizeof(char));
-	j = 0;
-	i = 0;
 	if (!str)
 		return (NULL);
+	j = 0;
+	i = 0;
 	while (s1[j] && len_s1)
-	{
-		str[i] = s1[j];
-		i++;
-		j++;
-	}
+		str[i++] = s1[j++];
 	j = 0;
 	while (s2[j] && len_s2)
-	{
-		str[i] = s2[j];
-		i++;
-		j++;
-	}
+		str[i++] = s2[j++];
 	str[i] = '\0';
 	free((char *)s1);
 	return (str);
@@ -130,10 +117,9 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 size_t	ft_strlen(const char *str, int type)
 {
-	size_t i;
-	
-	i = 0;
+	size_t	i;
 
+	i = 0;
 	if (type == 1)
 	{
 		while (str[i] != '\0')
@@ -144,9 +130,9 @@ size_t	ft_strlen(const char *str, int type)
 				return (i);
 			}
 			i++;
-		}	
+		}
 	}
-		while (str[i])
-			i++;
+	while (str[i])
+		i++;
 	return (i);
 }
