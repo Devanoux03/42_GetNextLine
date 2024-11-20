@@ -6,7 +6,7 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:43:52 by dernst            #+#    #+#             */
-/*   Updated: 2024/11/20 13:35:59 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2024/11/20 15:47:18 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 #endif
 // get_next_line
 char	*get_next_line(int fd);
-size_t read_file(char *buffer, int fd);
-char	*update_result(char *buffer, char *result, int fd);
+int		read_file(char *buffer, int fd);
+char	*update_result(char **buffer, char *result, int fd);
 
 // get_next_line_utils
 void	*ft_memmove(void *dest, const void *src, size_t n);

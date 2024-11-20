@@ -6,7 +6,7 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:12:00 by dernst            #+#    #+#             */
-/*   Updated: 2024/11/20 13:36:44 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2024/11/20 15:46:25 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 char	*ft_substr(char *s, unsigned int start, size_t len, size_t *is_endline, size_t *buffer_start)
 {
 	char	*str;
-	char *src;
+	char	*src;
 	size_t	i;
 
 	i = 0; 
@@ -63,7 +63,7 @@ char	*ft_substr(char *s, unsigned int start, size_t len, size_t *is_endline, siz
 		}
 	}
 	str[i] = '\0';
-	*buffer_start = i; 
+	*buffer_start = i;
 	return (str);
 }
 
@@ -124,6 +124,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		j++;
 	}
 	str[i] = '\0';
+	free((char *)s1);
 	return (str);
 }
 

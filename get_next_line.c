@@ -6,7 +6,7 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:06:59 by dernst            #+#    #+#             */
-/*   Updated: 2024/11/20 13:37:14 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2024/11/20 15:51:20 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,51 +16,69 @@
 //{
 //	char	*fileNAME = "hello.txt";
 //	int		fd = open(fileNAME,O_RDWR);
-//	char	*result;
-//	size_t	i;
-//	i = 0;
+//	close(fd);
+//	//char	*result;
+//	//size_t	i;
+//	//i = 0;
 
-//	while (i < 10)
-//	{
-//		result = get_next_line(fd);
-//		i++;
-//		printf("%s", result);
-//	}
+//	//while (i < 10)
+//	//{
+//	//	result = get_next_line(fd);
+//	//	i++;
+//	//	printf("%s", result);
+//	//	free(result);
+//	//	result = NULL;
+//	//}
+
+//	get_next_line(fd);
 //}
 
-char	*update_result(char *buffer, char *result, int fd)
+char	*update_result(char **buffer, char *result, int fd)
 {
-	size_t	bytes_read;
+	int	bytes_read;
 	size_t	is_endline;
 	size_t	start;
 	size_t	len_buffer;
+	char	*temp_result;
 
 	is_endline = 0;
 	start = 0;
-	len_buffer = ft_strlen(buffer, 0);
+	len_buffer = ft_strlen(*buffer, 0);
 	bytes_read = len_buffer;
 
 	if (len_buffer == 0)
 	{
-		bytes_read = read_file(buffer, fd);
-		if (bytes_read == 0)
+		bytes_read = read_file(*buffer, fd);
+		if (bytes_read == 0 || bytes_read == -1)
+		{
+			free(result);
+			free(*buffer);
+			*buffer = NULL;
 			return (NULL);
+		}
 	}
 	while (is_endline == 0)
 	{
-		result = ft_strjoin(result, ft_substr(buffer, 0, bytes_read, &is_endline, &start));
+		temp_result = ft_substr(*buffer, 0, (size_t)bytes_read, &is_endline, &start);
+		result = ft_strjoin(result, temp_result);
+		free(temp_result);
+		temp_result = NULL;
 		if (is_endline == 0)
-			bytes_read = read_file(buffer, fd);
-		if (bytes_read == 0)
+			bytes_read = read_file(*buffer, fd);
+		if (bytes_read == 0 || bytes_read == -1)
+		{
+			free(*buffer);
+			*buffer = NULL;
 			return(result);
+		}
 	}
-	buffer = ft_memmove(buffer, buffer + start, bytes_read - start);
+	*buffer = ft_memmove(*buffer, *buffer + start, bytes_read - start);
 	return (result);
 }
 
-size_t read_file(char *buffer, int fd)
+int read_file(char *buffer, int fd)
 {
-	size_t	bytes_read;
+	int	bytes_read;
 
 	bytes_read = 0;
 	bytes_read = read(fd, buffer,BUFFER_SIZE);
@@ -88,7 +106,13 @@ char	*get_next_line(int fd)
 	result = ft_calloc(1, sizeof(char));
 	result[0] = '\0';
 	
-	return (update_result(buffer, result, fd));
+	result = update_result(&buffer, result, fd);
+	if (!result || result[0] == 0)
+	{
+		free(buffer);
+		buffer = NULL;
+	}
+	return (result);
 }
 
 
