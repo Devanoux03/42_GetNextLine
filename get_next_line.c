@@ -6,7 +6,7 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:06:59 by dernst            #+#    #+#             */
-/*   Updated: 2024/11/19 22:48:19 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2024/11/20 13:37:14 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,10 @@ char	*get_next_line(int fd)
 	if (fd < 0)
 		return (NULL);
 	if (!buffer)
-		buffer = malloc(BUFFER_SIZE + 1);
+		buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buffer)
 		return (NULL);
-	result = malloc(1);
+	result = ft_calloc(1, sizeof(char));
 	result[0] = '\0';
 	
 	return (update_result(buffer, result, fd));
