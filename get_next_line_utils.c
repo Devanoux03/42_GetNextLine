@@ -6,7 +6,7 @@
 /*   By: dernst <dernst@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:12:00 by dernst            #+#    #+#             */
-/*   Updated: 2024/11/20 21:59:43 by dernst           ###   ########lyon.fr   */
+/*   Updated: 2024/11/21 21:59:34 by dernst           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,10 +125,7 @@ size_t	ft_strlen(const char *str, int type)
 		while (str[i] != '\0')
 		{
 			if (str[i] == '\n')
-			{
-				i++;
-				return (i);
-			}
+				return (++i);
 			i++;
 		}
 	}
